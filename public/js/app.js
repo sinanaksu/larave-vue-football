@@ -5263,7 +5263,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services_team__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services/team */ "./resources/js/services/team.js");
-/* harmony import */ var _components_leagueTable_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/leagueTable.vue */ "./resources/js/components/leagueTable.vue");
+/* harmony import */ var _services_match__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/match */ "./resources/js/services/match.js");
+/* harmony import */ var _components_leagueTable_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/leagueTable.vue */ "./resources/js/components/leagueTable.vue");
+/* harmony import */ var _components_fixture_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/fixture.vue */ "./resources/js/components/fixture.vue");
 //
 //
 //
@@ -5318,18 +5320,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
   data: function data() {
     return {
+      screen: 0,
       teams: {},
-      detail: false
+      fixture: []
     };
   },
   components: {
-    leagueTable: _components_leagueTable_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    fixture: _components_fixture_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    leagueTable: _components_leagueTable_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   methods: {
     loadTeams: function loadTeams() {
@@ -5337,21 +5373,95 @@ __webpack_require__.r(__webpack_exports__);
 
       (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.getTeams)().then(function (res) {
         _this.teams = res.data.data;
+        _this.screen = 1;
       });
     },
     newTournament: function newTournament() {
       var _this2 = this;
 
+      this.screen = 0;
       this.teams = {};
-      this.detail = false;
       (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.generateTournament)().then(function (res) {
         _this2.teams = res.data.data;
+        _this2.screen = 1;
       });
-    }
+    },
+    newFixture: function newFixture() {
+      var _this3 = this;
+
+      this.screen = 0;
+      this.fixture = [];
+      (0,_services_match__WEBPACK_IMPORTED_MODULE_1__.generateFixture)().then(function (res) {
+        _this3.fixture = res.data.data;
+        _this3.screen = 2;
+      });
+    },
+    nextWeek: function nextWeek() {
+      var _this4 = this;
+
+      this.screen = 0;
+      (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.getTeams)().then(function (res) {
+        _this4.teams = res.data.data;
+        _this4.screen = 3;
+      });
+    },
+    playAll: function playAll() {}
   },
   computed: {},
   created: function created() {
     this.loadTeams();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/fixture.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/fixture.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "fixture",
+  props: {
+    fixture: Array
+  },
+  data: function data() {
+    return {
+      weeks: this.fixture.length / 2
+    };
+  },
+  methods: {},
+  created: function created() {
+    console.log(this.fixture);
   }
 });
 
@@ -5368,6 +5478,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
 //
 //
 //
@@ -5474,6 +5588,30 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/services/match.js":
+/*!****************************************!*\
+  !*** ./resources/js/services/match.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getMatch": () => (/* binding */ getMatch),
+/* harmony export */   "generateFixture": () => (/* binding */ generateFixture)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var getMatch = function getMatch() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/matches/");
+};
+var generateFixture = function generateFixture() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/matches/generate/");
+};
 
 /***/ }),
 
@@ -28634,6 +28772,45 @@ component.options.__file = "resources/js/App.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/fixture.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/fixture.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _fixture_vue_vue_type_template_id_fe3161e4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fixture.vue?vue&type=template&id=fe3161e4& */ "./resources/js/components/fixture.vue?vue&type=template&id=fe3161e4&");
+/* harmony import */ var _fixture_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fixture.vue?vue&type=script&lang=js& */ "./resources/js/components/fixture.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _fixture_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _fixture_vue_vue_type_template_id_fe3161e4___WEBPACK_IMPORTED_MODULE_0__.render,
+  _fixture_vue_vue_type_template_id_fe3161e4___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/fixture.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/leagueTable.vue":
 /*!*************************************************!*\
   !*** ./resources/js/components/leagueTable.vue ***!
@@ -28689,6 +28866,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/fixture.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/fixture.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_fixture_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./fixture.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/fixture.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_fixture_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/leagueTable.vue?vue&type=script&lang=js&":
 /*!**************************************************************************!*\
   !*** ./resources/js/components/leagueTable.vue?vue&type=script&lang=js& ***!
@@ -28735,6 +28928,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/fixture.vue?vue&type=template&id=fe3161e4&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/fixture.vue?vue&type=template&id=fe3161e4& ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_fixture_vue_vue_type_template_id_fe3161e4___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_fixture_vue_vue_type_template_id_fe3161e4___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_fixture_vue_vue_type_template_id_fe3161e4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./fixture.vue?vue&type=template&id=fe3161e4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/fixture.vue?vue&type=template&id=fe3161e4&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/leagueTable.vue?vue&type=template&id=11a3ba64&":
 /*!********************************************************************************!*\
   !*** ./resources/js/components/leagueTable.vue?vue&type=template&id=11a3ba64& ***!
@@ -28777,7 +28987,7 @@ var render = function () {
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary btn-sm",
+              staticClass: "btn btn-secondary",
               on: {
                 click: function ($event) {
                   return _vm.newTournament()
@@ -28794,10 +29004,10 @@ var render = function () {
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary btn-sm",
+              staticClass: "btn btn-secondary",
               on: {
                 click: function ($event) {
-                  return _vm.newTournament()
+                  return _vm.newFixture()
                 },
               },
             },
@@ -28809,28 +29019,104 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "col text-center" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary",
+              attrs: { disabled: _vm.screen < 2 },
+              on: {
+                click: function ($event) {
+                  return _vm.nextWeek()
+                },
+              },
+            },
+            [_vm._v("\n                    Play Next Week\n                ")]
+          ),
+        ]),
         _vm._v(" "),
-        _vm._m(2),
+        _c("div", { staticClass: "col text-end" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary",
+              attrs: { disabled: _vm.screen < 2 },
+              on: {
+                click: function ($event) {
+                  return _vm.playAll()
+                },
+              },
+            },
+            [_vm._v("\n                    Play All Weeks\n                ")]
+          ),
+        ]),
       ]),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "container mb-4 p-3 bg-white rounded-3" }, [
-      _vm.teams.length
-        ? _c(
-            "div",
-            [
-              _vm._m(3),
+      _c("div", { staticClass: "row" }, [
+        _vm.teams.length && _vm.screen == 3
+          ? _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-8" },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("league-table", {
+                    attrs: { teams: _vm.teams, detail: true },
+                  }),
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("league-table", {
-                attrs: { teams: _vm.teams, detail: _vm.detail },
-              }),
-            ],
-            1
-          )
-        : _c("div", { staticClass: "d-flex justify-content-center" }, [
-            _vm._m(4),
-          ]),
+              _c(
+                "div",
+                { staticClass: "col-4" },
+                [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("league-table", {
+                    attrs: { teams: _vm.teams, detail: false },
+                  }),
+                ],
+                1
+              ),
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.teams.length && _vm.screen == 1
+          ? _c(
+              "div",
+              [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("league-table", {
+                  attrs: { teams: _vm.teams, detail: false },
+                }),
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.fixture.length && _vm.screen == 2
+          ? _c(
+              "div",
+              [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("fixture", { attrs: { fixture: _vm.fixture } }),
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.screen == 0
+          ? _c("div", { staticClass: "d-flex justify-content-center" }, [
+              _vm._m(5),
+            ])
+          : _vm._e(),
+      ]),
     ]),
   ])
 }
@@ -28842,7 +29128,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "container mb-4 p-3 rounded-3" }, [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col text-center" }, [
-          _c("img", { attrs: { src: "images/logo.svg", width: "200" } }),
+          _c("img", { attrs: { src: "images/logo.svg", width: "150" } }),
         ]),
       ]),
     ])
@@ -28851,20 +29137,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col text-center" }, [
-      _c("button", { staticClass: "btn btn-secondary btn-sm" }, [
-        _vm._v("\n                    Play First Week\n                "),
-      ]),
+    return _c("h3", { staticClass: "border-0 p-2 ps-3 pt-2" }, [
+      _c("span", [_vm._v("League Table")]),
+      _vm._v(" "),
+      _c("hr"),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col text-end" }, [
-      _c("button", { staticClass: "btn btn-secondary btn-sm" }, [
-        _vm._v("\n                    Play All Weeks\n                "),
-      ]),
+    return _c("h3", { staticClass: "border-0 p-2 ps-3 pt-2" }, [
+      _c("span", [_vm._v("Match Results")]),
+      _vm._v(" "),
+      _c("hr"),
     ])
   },
   function () {
@@ -28881,6 +29167,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("h3", { staticClass: "border-0 p-2 ps-3 pt-2" }, [
+      _c("span", [_vm._v("Generated Fixtures")]),
+      _vm._v(" "),
+      _c("hr"),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "div",
       { staticClass: "spinner-grow text-primary", attrs: { role: "status" } },
@@ -28888,6 +29184,79 @@ var staticRenderFns = [
     )
   },
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/fixture.vue?vue&type=template&id=fe3161e4&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/fixture.vue?vue&type=template&id=fe3161e4& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "row ps-1 pe-1" },
+    _vm._l(_vm.weeks, function (w, index) {
+      return _c("div", { key: index, staticClass: "col-6" }, [
+        _c("table", { staticClass: "table " }, [
+          _c("thead", { staticClass: "bg-dark text-white" }, [
+            _c("tr", [
+              _c("th", { attrs: { colspan: "5" } }, [
+                _vm._v("Week " + _vm._s(w)),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(
+              _vm.fixture.filter(function (m) {
+                return m.week == w
+              }),
+              function (match, index) {
+                return _c("tr", { key: index }, [
+                  _c("td", [
+                    _c("img", {
+                      attrs: { src: match.home_team[0].logo, width: "25" },
+                    }),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(match.home_team[0].name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" - ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(match.away_team[0].name))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("img", {
+                      attrs: { src: match.away_team[0].logo, width: "25" },
+                    }),
+                  ]),
+                ])
+              }
+            ),
+            0
+          ),
+        ]),
+      ])
+    }),
+    0
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -28912,12 +29281,10 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row ps-1 pe-1" }, [
     _c("div", { staticClass: "col" }, [
-      _c(
-        "table",
-        { staticClass: "table" },
-        [
+      _c("table", { staticClass: "table" }, [
+        _c("thead", { staticClass: "bg-dark text-white" }, [
           _c("tr", [
-            _c("th"),
+            _c("th", { attrs: { width: "55" } }),
             _vm._v(" "),
             _c("th", [_vm._v("Team Name")]),
             _vm._v(" "),
@@ -28937,10 +29304,13 @@ var render = function () {
             _vm._v(" "),
             _vm.detail ? _c("th", [_vm._v("Points")]) : _vm._e(),
           ]),
-          _vm._v(" "),
+        ]),
+        _vm._v(" "),
+        _c(
+          "tbody",
           _vm._l(_vm.teams, function (team, index) {
             return _c("tr", { key: index }, [
-              _c("td", [_c("img", { attrs: { src: team.logo, width: "40" } })]),
+              _c("td", [_c("img", { attrs: { src: team.logo, width: "25" } })]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(team.name))]),
               _vm._v(" "),
@@ -28961,9 +29331,9 @@ var render = function () {
               _vm.detail ? _c("td", [_vm._v(_vm._s(team.points))]) : _vm._e(),
             ])
           }),
-        ],
-        2
-      ),
+          0
+        ),
+      ]),
     ]),
   ])
 }
