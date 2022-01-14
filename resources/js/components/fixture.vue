@@ -33,9 +33,6 @@ export default {
         }
     },
     methods: {
-    },
-    created() {
-        console.log(this.fixture);
     }
 };
 </script>
