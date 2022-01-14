@@ -5350,6 +5350,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5360,6 +5393,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       screen: 0,
       teams: {},
+      weekResult: {},
+      week: 0,
       fixture: []
     };
   },
@@ -5373,12 +5408,14 @@ __webpack_require__.r(__webpack_exports__);
 
       (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.getTeams)().then(function (res) {
         _this.teams = res.data.data;
+        _this.week = 0;
         _this.screen = 1;
       });
     },
     newTournament: function newTournament() {
       var _this2 = this;
 
+      this.week = 0;
       this.screen = 0;
       this.teams = {};
       (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.generateTournament)().then(function (res) {
@@ -5400,9 +5437,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       this.screen = 0;
-      (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.getTeams)().then(function (res) {
-        _this4.teams = res.data.data;
-        _this4.screen = 3;
+      this.teams = {};
+      this.weekResult = {};
+      (0,_services_match__WEBPACK_IMPORTED_MODULE_1__.playNextWeek)().then(function (res) {
+        _this4.weekResult = res.data.data;
+        (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.getTeams)().then(function (res) {
+          _this4.teams = res.data.data;
+          _this4.week = res.data.week;
+          _this4.screen = 3;
+        });
       });
     },
     playAll: function playAll() {}
@@ -5459,10 +5502,7 @@ __webpack_require__.r(__webpack_exports__);
       weeks: this.fixture.length / 2
     };
   },
-  methods: {},
-  created: function created() {
-    console.log(this.fixture);
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -5515,11 +5555,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "leagueTable",
   props: {
     teams: Array,
-    detail: Boolean
+    detail: Boolean,
+    week: Number
   }
 });
 
@@ -5601,7 +5646,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getMatch": () => (/* binding */ getMatch),
-/* harmony export */   "generateFixture": () => (/* binding */ generateFixture)
+/* harmony export */   "generateFixture": () => (/* binding */ generateFixture),
+/* harmony export */   "playNextWeek": () => (/* binding */ playNextWeek),
+/* harmony export */   "playAllWeek": () => (/* binding */ playAllWeek)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -5611,6 +5658,12 @@ var getMatch = function getMatch() {
 };
 var generateFixture = function generateFixture() {
   return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/matches/generate/");
+};
+var playNextWeek = function playNextWeek() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/matches/nextweek/");
+};
+var playAllWeek = function playAllWeek() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/matches/playallweek/");
 };
 
 /***/ }),
@@ -29000,31 +29053,14 @@ var render = function () {
               ),
             ]
           ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              on: {
-                click: function ($event) {
-                  return _vm.newFixture()
-                },
-              },
-            },
-            [
-              _vm._v(
-                "\n                    Generate Fixtures\n                "
-              ),
-            ]
-          ),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col text-center" }, [
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary",
-              attrs: { disabled: _vm.screen < 2 },
+              staticClass: "btn btn-dark",
+              attrs: { disabled: _vm.screen < 2 || _vm.week == 6 },
               on: {
                 click: function ($event) {
                   return _vm.nextWeek()
@@ -29039,8 +29075,8 @@ var render = function () {
           _c(
             "button",
             {
-              staticClass: "btn btn-secondary",
-              attrs: { disabled: _vm.screen < 2 },
+              staticClass: "btn btn-primary",
+              attrs: { disabled: _vm.screen < 2 || _vm.week == 6 },
               on: {
                 click: function ($event) {
                   return _vm.playAll()
@@ -29049,9 +29085,38 @@ var render = function () {
             },
             [_vm._v("\n                    Play All Weeks\n                ")]
           ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              on: {
+                click: function ($event) {
+                  return _vm.newTournament()
+                },
+              },
+            },
+            [_vm._v("\n                    Reset Data\n                ")]
+          ),
         ]),
       ]),
     ]),
+    _vm._v(" "),
+    _vm.week == 6
+      ? _c("div", { staticClass: "container mb-4 p-3 rounded-3 bg-primary" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-5 text-end" }, [
+              _c("img", { attrs: { src: _vm.teams[0].logo, width: "100" } }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-7 text-start" }, [
+              _c("h2", [_vm._v("Champion")]),
+              _vm._v(" "),
+              _c("h1", [_vm._v(_vm._s(_vm.teams[0].name))]),
+            ]),
+          ]),
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "container mb-4 p-3 bg-white rounded-3" }, [
       _c("div", { staticClass: "row" }, [
@@ -29059,29 +29124,68 @@ var render = function () {
           ? _c("div", { staticClass: "row" }, [
               _c(
                 "div",
-                { staticClass: "col-8" },
+                { staticClass: "col-7" },
                 [
                   _vm._m(1),
                   _vm._v(" "),
                   _c("league-table", {
-                    attrs: { teams: _vm.teams, detail: true },
+                    attrs: { teams: _vm.teams, detail: true, week: _vm.week },
                   }),
                 ],
                 1
               ),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-4" },
-                [
-                  _vm._m(2),
+              _c("div", { staticClass: "col-5" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("table", { staticClass: "table" }, [
+                  _c("thead", { staticClass: "bg-dark text-white" }, [
+                    _c("tr", [
+                      _c("th", { attrs: { colspan: "5" } }, [
+                        _vm._v("Week " + _vm._s(_vm.week)),
+                      ]),
+                    ]),
+                  ]),
                   _vm._v(" "),
-                  _c("league-table", {
-                    attrs: { teams: _vm.teams, detail: false },
-                  }),
-                ],
-                1
-              ),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.weekResult, function (match, ii) {
+                      return _c("tr", { key: ii }, [
+                        _c("td", [
+                          _c("img", {
+                            attrs: {
+                              src: match.home_team[0].logo,
+                              width: "25",
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(match.home_team[0].name))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(match.home_score) +
+                              " - " +
+                              _vm._s(match.away_score)
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(match.away_team[0].name))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("img", {
+                            attrs: {
+                              src: match.away_team[0].logo,
+                              width: "25",
+                            },
+                          }),
+                        ]),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+              ]),
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -29092,8 +29196,29 @@ var render = function () {
                 _vm._m(3),
                 _vm._v(" "),
                 _c("league-table", {
-                  attrs: { teams: _vm.teams, detail: false },
+                  attrs: { teams: _vm.teams, detail: false, week: _vm.week },
                 }),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col text-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-dark",
+                        on: {
+                          click: function ($event) {
+                            return _vm.newFixture()
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Generate Fixtures\n                    "
+                        ),
+                      ]
+                    ),
+                  ]),
+                ]),
               ],
               1
             )
@@ -29157,7 +29282,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h3", { staticClass: "border-0 p-2 ps-3 pt-2" }, [
+    return _c("h3", { staticClass: "border-0 ps-3 pt-2 p-0" }, [
       _c("span", [_vm._v("Teams")]),
       _vm._v(" "),
       _c("hr"),
@@ -29288,7 +29413,9 @@ var render = function () {
             _vm._v(" "),
             _c("th", [_vm._v("Team Name")]),
             _vm._v(" "),
-            _vm.detail ? _c("th", [_vm._v("Played")]) : _vm._e(),
+            !_vm.detail ? _c("th", [_vm._v("Stadium")]) : _vm._e(),
+            _vm._v(" "),
+            _vm.detail ? _c("th", [_vm._v("M")]) : _vm._e(),
             _vm._v(" "),
             _vm.detail ? _c("th", [_vm._v("W")]) : _vm._e(),
             _vm._v(" "),
@@ -29302,7 +29429,13 @@ var render = function () {
             _vm._v(" "),
             _vm.detail ? _c("th", [_vm._v("GD")]) : _vm._e(),
             _vm._v(" "),
-            _vm.detail ? _c("th", [_vm._v("Points")]) : _vm._e(),
+            _vm.detail ? _c("th", [_vm._v("P")]) : _vm._e(),
+            _vm._v(" "),
+            _vm.week == 4 || _vm.week == 5
+              ? _c("th", { staticClass: "text-center bg-warning text-dark" }, [
+                  _vm._v("ODDS"),
+                ])
+              : _vm._e(),
           ]),
         ]),
         _vm._v(" "),
@@ -29313,6 +29446,8 @@ var render = function () {
               _c("td", [_c("img", { attrs: { src: team.logo, width: "25" } })]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(team.name))]),
+              _vm._v(" "),
+              !_vm.detail ? _c("td", [_vm._v(_vm._s(team.stadium))]) : _vm._e(),
               _vm._v(" "),
               _vm.detail ? _c("td", [_vm._v(_vm._s(team.played))]) : _vm._e(),
               _vm._v(" "),
@@ -29329,6 +29464,12 @@ var render = function () {
               _vm.detail ? _c("td", [_vm._v(_vm._s(team.gd))]) : _vm._e(),
               _vm._v(" "),
               _vm.detail ? _c("td", [_vm._v(_vm._s(team.points))]) : _vm._e(),
+              _vm._v(" "),
+              _vm.week == 4 || _vm.week == 5
+                ? _c("td", { staticClass: "text-center bg-warning" }, [
+                    _vm._v(_vm._s(team.odds) + "%"),
+                  ])
+                : _vm._e(),
             ])
           }),
           0
