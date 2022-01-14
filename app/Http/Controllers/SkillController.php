@@ -7,6 +7,21 @@ use Illuminate\Http\Request;
 
 class SkillController extends Controller
 {
+
+    public function getTeamPower($id,$area,$weather)
+    {
+        $skills = Skill::findOrFail($id);
+        $total = 0;
+        $total += $skills->goalkeeper;
+        $total += $skills->defense;
+        $total += $skills->attack;
+        $area == "home" ? $total += $skills->home : $total += $skills->away;
+        $weather == "clear" ? $total += $skills->weather_clear : '';
+        $weather == "rain" ? $total += $skills->weather_rain : '';
+        $weather == "snow" ? $total += $skills->weather_snow : '';
+        return $total;
+    }
+
     /**
      * Display a listing of the resource.
      *
