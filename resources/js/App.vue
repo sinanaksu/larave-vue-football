@@ -7,7 +7,7 @@
                 </div>
             </div>
         </div>
-        <div class="container mb-4 p-3 rounded-3 text-primary bg-white" v-if="week == 6">
+        <div class="container mb-4 p-3 rounded-3 text-primary bg-white" v-if="screen != 0 && week == 6">
             <div class="row">
                 <div class="col-5 text-end">
                     <img :src="teams[0].logo" width="100" />
@@ -73,9 +73,29 @@
                             <tr v-for="(match, ii) of weekResult" :key="ii">
                                 <td><img :src="match.home_team[0].logo" width="25" /></td>
                                 <td>{{ match.home_team[0].name }}</td>
-                                <td>{{ match.home_score }} - {{ match.away_score }}</td>
+                                <td>{{ match.home_score }} <i class="bi bi-pencil-square mx-3" @click="change(match.id,match.home_score,match.away_score)"></i> {{ match.away_score }}</td>
                                 <td>{{ match.away_team[0].name }}</td>
                                 <td><img :src="match.away_team[0].logo" width="25" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table" v-if="change_id != 0">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select class="form-select form-select-sm" v-model="change_home">
+                                    <option key="0" value="0">0</option>
+                                    <option v-for="h in 10" :key="h" v-bind:value="h">{{h}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-select form-select-sm" v-model="change_away">
+                                    <option key="0" value="0">0</option>
+                                    <option v-for="h in 10" :key="h" v-bind:value="h">{{h}}</option>
+                                    </select>
+                                </td>
+                                <td><button class="btn btn-sm btn-dark" @click="setChange()">Save</button> <button class="btn btn-sm btn-danger" @click="cancelChange()">Cancel</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,7 +137,7 @@
 
 <script>
 import { getTeams, generateTournament } from "./services/team";
-import { generateFixture, playNextWeek, playAllWeek } from "./services/match";
+import { generateFixture, playNextWeek, playAllWeek, updateScores } from "./services/match";
 
 import leagueTable from "./components/leagueTable.vue";
 import fixture from "./components/fixture.vue";
@@ -131,6 +151,9 @@ export default {
             weekResult: {},
             week:0,
             fixture: [],
+            change_home:0,
+            change_away:0,
+            change_id:0
         };
     },
     components: {
@@ -163,6 +186,7 @@ export default {
             });
         },
         nextWeek() {
+            this.cancelChange();
             this.screen = 0;
             this.teams = {};
             this.weekResult = {};
@@ -180,7 +204,7 @@ export default {
 
         },
         playAll() {
-            console.log("play all");
+            this.cancelChange();
             this.screen = 0;
             this.teams = {};
             this.weekResult = {};
@@ -196,6 +220,36 @@ export default {
 
             })
         },
+        change(id,home,away){
+            this.change_home = home;
+            this.change_away = away;
+            this.change_id = id;
+        },
+        cancelChange(){
+            this.change_home = 0;
+            this.change_away = 0;
+            this.change_id = 0;
+        },
+        setChange(){
+            this.screen = 0;
+            this.teams = {};
+            this.weekResult = {};
+            updateScores({
+                "id": this.change_id,
+                "home": this.change_home,
+                "away": this.change_away
+                }).then((res) => {
+                this.weekResult = res.data.data;
+                this.cancelChange();
+                getTeams().then((res) => {
+                    this.teams = res.data.data;
+                    this.week = res.data.week;
+                    this.screen = 3;
+                })
+            })
+        }
+
+
     },
     computed: {},
     created() {

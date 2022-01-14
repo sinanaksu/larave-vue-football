@@ -5383,6 +5383,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5395,7 +5415,10 @@ __webpack_require__.r(__webpack_exports__);
       teams: {},
       weekResult: {},
       week: 0,
-      fixture: []
+      fixture: [],
+      change_home: 0,
+      change_away: 0,
+      change_id: 0
     };
   },
   components: {
@@ -5436,6 +5459,7 @@ __webpack_require__.r(__webpack_exports__);
     nextWeek: function nextWeek() {
       var _this4 = this;
 
+      this.cancelChange();
       this.screen = 0;
       this.teams = {};
       this.weekResult = {};
@@ -5451,7 +5475,7 @@ __webpack_require__.r(__webpack_exports__);
     playAll: function playAll() {
       var _this5 = this;
 
-      console.log("play all");
+      this.cancelChange();
       this.screen = 0;
       this.teams = {};
       this.weekResult = {};
@@ -5461,6 +5485,38 @@ __webpack_require__.r(__webpack_exports__);
           _this5.teams = res.data.data;
           _this5.week = res.data.week;
           _this5.screen = 3;
+        });
+      });
+    },
+    change: function change(id, home, away) {
+      this.change_home = home;
+      this.change_away = away;
+      this.change_id = id;
+    },
+    cancelChange: function cancelChange() {
+      this.change_home = 0;
+      this.change_away = 0;
+      this.change_id = 0;
+    },
+    setChange: function setChange() {
+      var _this6 = this;
+
+      this.screen = 0;
+      this.teams = {};
+      this.weekResult = {};
+      (0,_services_match__WEBPACK_IMPORTED_MODULE_1__.updateScores)({
+        "id": this.change_id,
+        "home": this.change_home,
+        "away": this.change_away
+      }).then(function (res) {
+        _this6.weekResult = res.data.data;
+
+        _this6.cancelChange();
+
+        (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.getTeams)().then(function (res) {
+          _this6.teams = res.data.data;
+          _this6.week = res.data.week;
+          _this6.screen = 3;
         });
       });
     }
@@ -5663,7 +5719,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getMatch": () => (/* binding */ getMatch),
 /* harmony export */   "generateFixture": () => (/* binding */ generateFixture),
 /* harmony export */   "playNextWeek": () => (/* binding */ playNextWeek),
-/* harmony export */   "playAllWeek": () => (/* binding */ playAllWeek)
+/* harmony export */   "playAllWeek": () => (/* binding */ playAllWeek),
+/* harmony export */   "updateScores": () => (/* binding */ updateScores)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -5679,6 +5736,9 @@ var playNextWeek = function playNextWeek() {
 };
 var playAllWeek = function playAllWeek() {
   return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/matches/playallweek/");
+};
+var updateScores = function updateScores(params) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().put("api/match/", params);
 };
 
 /***/ }),
@@ -29049,7 +29109,7 @@ var render = function () {
   return _c("div", { staticClass: "pt-5", attrs: { id: "app" } }, [
     _vm._m(0),
     _vm._v(" "),
-    _vm.week == 6
+    _vm.screen != 0 && _vm.week == 6
       ? _c(
           "div",
           { staticClass: "container mb-4 p-3 rounded-3 text-primary bg-white" },
@@ -29182,11 +29242,20 @@ var render = function () {
                         _c("td", [_vm._v(_vm._s(match.home_team[0].name))]),
                         _vm._v(" "),
                         _c("td", [
-                          _vm._v(
-                            _vm._s(match.home_score) +
-                              " - " +
-                              _vm._s(match.away_score)
-                          ),
+                          _vm._v(_vm._s(match.home_score) + " "),
+                          _c("i", {
+                            staticClass: "bi bi-pencil-square mx-3",
+                            on: {
+                              click: function ($event) {
+                                return _vm.change(
+                                  match.id,
+                                  match.home_score,
+                                  match.away_score
+                                )
+                              },
+                            },
+                          }),
+                          _vm._v(" " + _vm._s(match.away_score)),
                         ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(match.away_team[0].name))]),
@@ -29204,6 +29273,146 @@ var render = function () {
                     0
                   ),
                 ]),
+                _vm._v(" "),
+                _vm.change_id != 0
+                  ? _c("table", { staticClass: "table" }, [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.change_home,
+                                    expression: "change_home",
+                                  },
+                                ],
+                                staticClass: "form-select form-select-sm",
+                                on: {
+                                  change: function ($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call(
+                                        $event.target.options,
+                                        function (o) {
+                                          return o.selected
+                                        }
+                                      )
+                                      .map(function (o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.change_home = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                },
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  { key: "0", attrs: { value: "0" } },
+                                  [_vm._v("0")]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(10, function (h) {
+                                  return _c(
+                                    "option",
+                                    { key: h, domProps: { value: h } },
+                                    [_vm._v(_vm._s(h))]
+                                  )
+                                }),
+                              ],
+                              2
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.change_away,
+                                    expression: "change_away",
+                                  },
+                                ],
+                                staticClass: "form-select form-select-sm",
+                                on: {
+                                  change: function ($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call(
+                                        $event.target.options,
+                                        function (o) {
+                                          return o.selected
+                                        }
+                                      )
+                                      .map(function (o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.change_away = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                },
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  { key: "0", attrs: { value: "0" } },
+                                  [_vm._v("0")]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(10, function (h) {
+                                  return _c(
+                                    "option",
+                                    { key: h, domProps: { value: h } },
+                                    [_vm._v(_vm._s(h))]
+                                  )
+                                }),
+                              ],
+                              2
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-dark",
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.setChange()
+                                  },
+                                },
+                              },
+                              [_vm._v("Save")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-danger",
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.cancelChange()
+                                  },
+                                },
+                              },
+                              [_vm._v("Cancel")]
+                            ),
+                          ]),
+                        ]),
+                      ]),
+                    ])
+                  : _vm._e(),
               ]),
             ])
           : _vm._e(),
