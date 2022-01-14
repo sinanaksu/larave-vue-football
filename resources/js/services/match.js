@@ -7,3 +7,11 @@ export const getMatch = () => {
 export const generateFixture = () => {
     return axios.get("api/matches/generate/");
 };
+
+export const playNextWeek = () => {
+    return axios.get("api/matches/nextweek/");
+};
+
+export const playAllWeek = () => {
+    return axios.get("api/matches/playallweek/");
+};
