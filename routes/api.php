@@ -19,3 +19,4 @@ Route::get('teams/generate', 'App\Http\Controllers\TeamController@generateTourna
 
 Route::get('matches', 'App\Http\Controllers\MatchController@index');
 Route::get('matches/generate', 'App\Http\Controllers\MatchController@generateMatches');
+Route::get('matches/nextweek', 'App\Http\Controllers\MatchController@playNextWeek');
