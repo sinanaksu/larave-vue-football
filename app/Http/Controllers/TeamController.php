@@ -20,9 +20,37 @@ class TeamController extends Controller
         ->get()
         ->toArray();
 
+        $week = ($teams[0]["played"]);
+        $factor = 0;
+
+        if($week == 4 || $week == 5) {
+            $leader_points = ($teams[0]["points"]);
+            $total = 0;
+            foreach ($teams as $key => $value) {
+                if(((6-$week) * 3) >= $leader_points-$value["points"]) {
+                    $total += $value["points"];
+                }
+            }
+            $factor = 100/$total;
+            $case = 100;
+            foreach ($teams as $key => $value) {
+                $per = round(($value["points"]*$factor));
+                $case = $case - $per;
+                if($case <= 0){
+                    $teams[$key]["odds"] = 0;
+                } else if($per < $case){
+                    $teams[$key]["odds"] = $per;
+                } else {
+                    $teams[$key]["odds"] = $case;
+                }
+            }
+        }
+
         return response()->json([
             'success' => true,
-            'data' => $teams
+            'data' => $teams,
+            'week' => $week,
+            'factor' => $factor
         ]);
     }
 
