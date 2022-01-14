@@ -59,6 +59,10 @@ class MatchController extends Controller
         return $week;
     }
 
+    public function playAllWeek() {
+        return $this->playNextWeek(99);
+    }
+
      public function playNextWeek($limit = 2)
     {
         $week_matches = Match::where('complated', 0)->orderBy('week', "asc")->limit($limit)
