@@ -5448,7 +5448,22 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    playAll: function playAll() {}
+    playAll: function playAll() {
+      var _this5 = this;
+
+      console.log("play all");
+      this.screen = 0;
+      this.teams = {};
+      this.weekResult = {};
+      (0,_services_match__WEBPACK_IMPORTED_MODULE_1__.playAllWeek)().then(function (res) {
+        _this5.weekResult = res.data.data;
+        (0,_services_team__WEBPACK_IMPORTED_MODULE_0__.getTeams)().then(function (res) {
+          _this5.teams = res.data.data;
+          _this5.week = res.data.week;
+          _this5.screen = 3;
+        });
+      });
+    }
   },
   computed: {},
   created: function created() {
@@ -29034,6 +29049,26 @@ var render = function () {
   return _c("div", { staticClass: "pt-5", attrs: { id: "app" } }, [
     _vm._m(0),
     _vm._v(" "),
+    _vm.week == 6
+      ? _c(
+          "div",
+          { staticClass: "container mb-4 p-3 rounded-3 text-primary bg-white" },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-5 text-end" }, [
+                _c("img", { attrs: { src: _vm.teams[0].logo, width: "100" } }),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-7 text-start" }, [
+                _c("h2", [_vm._v("Champion")]),
+                _vm._v(" "),
+                _c("h1", [_vm._v(_vm._s(_vm.teams[0].name))]),
+              ]),
+            ]),
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "container mb-4 p-3 bg-white rounded-3" }, [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col" }, [
@@ -29083,7 +29118,7 @@ var render = function () {
                 },
               },
             },
-            [_vm._v("\n                    Play All Weeks\n                ")]
+            [_vm._v("\n                    Play All Week\n                ")]
           ),
           _vm._v(" "),
           _c(
@@ -29101,22 +29136,6 @@ var render = function () {
         ]),
       ]),
     ]),
-    _vm._v(" "),
-    _vm.week == 6
-      ? _c("div", { staticClass: "container mb-4 p-3 rounded-3 bg-primary" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-5 text-end" }, [
-              _c("img", { attrs: { src: _vm.teams[0].logo, width: "100" } }),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-7 text-start" }, [
-              _c("h2", [_vm._v("Champion")]),
-              _vm._v(" "),
-              _c("h1", [_vm._v(_vm._s(_vm.teams[0].name))]),
-            ]),
-          ]),
-        ])
-      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "container mb-4 p-3 bg-white rounded-3" }, [
       _c("div", { staticClass: "row" }, [

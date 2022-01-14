@@ -7,6 +7,17 @@
                 </div>
             </div>
         </div>
+        <div class="container mb-4 p-3 rounded-3 text-primary bg-white" v-if="week == 6">
+            <div class="row">
+                <div class="col-5 text-end">
+                    <img :src="teams[0].logo" width="100" />
+                </div>
+                <div class="col-7 text-start">
+                    <h2>Champion</h2>
+                    <h1>{{ teams[0].name }}</h1>
+                </div>
+            </div>
+        </div>
         <div class="container mb-4 p-3 bg-white rounded-3">
             <div class="row">
                 <div class="col">
@@ -29,22 +40,11 @@
                         :disabled="screen < 2 || week == 6"
                         @click="playAll()"
                     >
-                        Play All Weeks
+                        Play All Week
                     </button>
                     <button class="btn btn-danger" @click="newTournament()">
                         Reset Data
                     </button>
-                </div>
-            </div>
-        </div>
-        <div class="container mb-4 p-3 rounded-3 bg-primary" v-if="week == 6">
-            <div class="row">
-                <div class="col-5 text-end">
-                    <img :src="teams[0].logo" width="100" />
-                </div>
-                <div class="col-7 text-start">
-                    <h2>Champion</h2>
-                    <h1>{{ teams[0].name }}</h1>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
 
 <script>
 import { getTeams, generateTournament } from "./services/team";
-import { generateFixture, playNextWeek } from "./services/match";
+import { generateFixture, playNextWeek, playAllWeek } from "./services/match";
 
 import leagueTable from "./components/leagueTable.vue";
 import fixture from "./components/fixture.vue";
@@ -179,7 +179,23 @@ export default {
             })
 
         },
-        playAll() {},
+        playAll() {
+            console.log("play all");
+            this.screen = 0;
+            this.teams = {};
+            this.weekResult = {};
+
+            playAllWeek().then((res) => {
+                this.weekResult = res.data.data;
+
+                getTeams().then((res) => {
+                    this.teams = res.data.data;
+                    this.week = res.data.week;
+                    this.screen = 3;
+                });
+
+            })
+        },
     },
     computed: {},
     created() {
