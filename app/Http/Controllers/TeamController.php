@@ -35,14 +35,14 @@ class TeamController extends Controller
             $case = 100;
             foreach ($teams as $key => $value) {
                 $per = round(($value["points"]*$factor));
-                $case = $case - $per;
-                if($case <= 0){
+                if($case < 0){
                     $teams[$key]["odds"] = 0;
                 } else if($per < $case){
                     $teams[$key]["odds"] = $per;
                 } else {
                     $teams[$key]["odds"] = $case;
                 }
+                $case = $case - $per;
             }
         }
 
