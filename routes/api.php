@@ -22,3 +22,6 @@ Route::get('matches/generate', 'App\Http\Controllers\MatchController@generateMat
 Route::get('matches/nextweek', 'App\Http\Controllers\MatchController@playNextWeek');
 Route::get('matches/playallweek', 'App\Http\Controllers\MatchController@playAllWeek');
 
+Route::put('match', 'App\Http\Controllers\MatchController@update');
+
+

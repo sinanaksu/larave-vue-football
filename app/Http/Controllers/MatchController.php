@@ -63,47 +63,49 @@ class MatchController extends Controller
         return $this->playNextWeek(99);
     }
 
-     public function playNextWeek($limit = 2)
+     public function playNextWeek($limit = 2, $weeklist = false)
     {
-        $week_matches = Match::where('complated', 0)->orderBy('week', "asc")->limit($limit)
-        ->get()
-        ->toArray();
+        if(!$weeklist){
+            $week_matches = Match::where('complated', 0)->orderBy('week', "asc")->limit($limit)
+            ->get()
+            ->toArray();
 
-        foreach ($week_matches as $k => $v) {
+            foreach ($week_matches as $k => $v) {
 
-            $home_power = SkillController::getTeamPower($v["home_id"],"home",$v["weather"]);
-            $away_power = SkillController::getTeamPower($v["home_id"],"away",$v["weather"]);
-            $difference = ($home_power-$away_power) < 0 ? ($away_power-$home_power) : ($home_power-$away_power);
+                $home_power = SkillController::getTeamPower($v["home_id"],"home",$v["weather"]);
+                $away_power = SkillController::getTeamPower($v["home_id"],"away",$v["weather"]);
+                $difference = ($home_power-$away_power) < 0 ? ($away_power-$home_power) : ($home_power-$away_power);
 
-            if($difference <= 0.5) {
-                // %100 Draw
-                $draw_score = rand(0,4);
-                $score1 = $draw_score;
-                $score2 = $draw_score;
-            } else if ($difference > 0.5 && $difference <= 3) {
-                // %25 - %25 - %50
-                $score1 = rand(0,2);
-                $score2 = rand(1,5);
-            } else {
-                // %25 - %75
-                $score1 = rand(0,2);
-                $score2 = rand(2,6);
+                if($difference <= 0.5) {
+                    // %100 Draw
+                    $draw_score = rand(0,4);
+                    $score1 = $draw_score;
+                    $score2 = $draw_score;
+                } else if ($difference > 0.5 && $difference <= 3) {
+                    // %25 - %25 - %50
+                    $score1 = rand(0,2);
+                    $score2 = rand(1,5);
+                } else {
+                    // %25 - %75
+                    $score1 = rand(0,2);
+                    $score2 = rand(2,6);
+                }
+
+                if($home_power >= $away_power){
+                    $score1 >= $score2 ? $home_score = $score1 : $home_score = $score2;
+                    $score1 >= $score2 ? $away_score = $score2 : $away_score = $score1;
+                } else{
+                    $score1 >= $score2 ? $away_score = $score1 : $away_score = $score2;
+                    $score1 >= $score2 ? $home_score = $score2 : $home_score = $score1;
+                }
+
+                $m = Match::findOrFail($v["id"]);
+                $m->home_score = $home_score;
+                $m->away_score = $away_score;
+                $m->complated = 1;
+                $m->save();
+
             }
-
-            if($home_power >= $away_power){
-                $score1 >= $score2 ? $home_score = $score1 : $home_score = $score2;
-                $score1 >= $score2 ? $away_score = $score2 : $away_score = $score1;
-            } else{
-                $score1 >= $score2 ? $away_score = $score1 : $away_score = $score2;
-                $score1 >= $score2 ? $home_score = $score2 : $home_score = $score1;
-            }
-
-            $m = Match::findOrFail($v["id"]);
-            $m->home_score = $home_score;
-            $m->away_score = $away_score;
-            $m->complated = 1;
-            $m->save();
-
         }
 
         $fixture_update = $this->applyResult();
@@ -236,7 +238,12 @@ class MatchController extends Controller
      */
     public function update(Request $request, Match $match)
     {
-        //
+        $m = Match::findOrFail($request->id);
+        $m->home_score = $request->home;
+        $m->away_score = $request->away;
+        $m->save();
+
+        return $this->playNextWeek(2,true);
     }
 
     /**
