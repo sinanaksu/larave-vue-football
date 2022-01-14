@@ -15,3 +15,7 @@ export const playNextWeek = () => {
 export const playAllWeek = () => {
     return axios.get("api/matches/playallweek/");
 };
+
+export const updateScores = (params) => {
+    return axios.put("api/match/", params);
+};
