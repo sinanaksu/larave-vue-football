@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('teams', 'App\Http\Controllers\TeamController@index');
 Route::get('teams/generate', 'App\Http\Controllers\TeamController@generateTournament');
+
+Route::get('matches', 'App\Http\Controllers\MatchController@index');
+Route::get('matches/generate', 'App\Http\Controllers\MatchController@generateMatches');
