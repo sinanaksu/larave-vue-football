@@ -1,0 +1,187 @@
+[
+    {
+        "name": "Borussia Dortmund",
+        "logo": "https://crests.football-data.org/4.svg",
+        "stadium": "Signal Iduna Park"
+    },
+    {
+        "name": "FC Bayern München",
+        "logo": "https://crests.football-data.org/5.svg",
+        "stadium": "Allianz Arena"
+    },
+    {
+        "name": "VfL Wolfsburg",
+        "logo": "https://crests.football-data.org/11.svg",
+        "stadium": "Volkswagen Arena"
+    },
+    {
+        "name": "Chelsea FC",
+        "logo": "https://crests.football-data.org/61.svg",
+        "stadium": "Stamford Bridge"
+    },
+    {
+        "name": "Liverpool FC",
+        "logo": "https://crests.football-data.org/64.png",
+        "stadium": "Anfield"
+    },
+    {
+        "name": "Manchester City FC",
+        "logo": "https://crests.football-data.org/65.svg",
+        "stadium": "Etihad Stadium"
+    },
+    {
+        "name": "Manchester United FC",
+        "logo": "https://crests.football-data.org/66.svg",
+        "stadium": "Old Trafford"
+    },
+    {
+        "name": "Club Atlético de Madrid",
+        "logo": "https://crests.football-data.org/78.svg",
+        "stadium": "Estadio Wanda Metropolitano"
+    },
+    {
+        "name": "FC Barcelona",
+        "logo": "https://crests.football-data.org/81.svg",
+        "stadium": "Camp Nou"
+    },
+    {
+        "name": "Real Madrid CF",
+        "logo": "https://crests.football-data.org/86.svg",
+        "stadium": "Estadio Santiago Bernabéu"
+    },
+    {
+        "name": "Villarreal CF",
+        "logo": "https://crests.football-data.org/94.svg",
+        "stadium": "Estadio de la Cerámica"
+    },
+    {
+        "name": "AC Milan",
+        "logo": "https://crests.football-data.org/98.svg",
+        "stadium": "Stadio Giuseppe Meazza"
+    },
+    {
+        "name": "Atalanta BC",
+        "logo": "https://crests.football-data.org/102.svg",
+        "stadium": "Stadio Atleti Azzurri d'Italia"
+    },
+    {
+        "name": "FC Internazionale Milano",
+        "logo": "https://crests.football-data.org/108.png",
+        "stadium": "Stadio Giuseppe Meazza"
+    },
+    {
+        "name": "Juventus FC",
+        "logo": "https://crests.football-data.org/109.svg",
+        "stadium": "Allianz Stadium"
+    },
+    {
+        "name": "Sporting Clube de Portugal",
+        "logo": "https://crests.football-data.org/498.svg",
+        "stadium": "Estádio José Alvalade"
+    },
+    {
+        "name": "FC Porto",
+        "logo": "https://crests.football-data.org/503.svg",
+        "stadium": "Estádio Do Dragão"
+    },
+    {
+        "name": "Lille OSC",
+        "logo": "https://crests.football-data.org/521.svg",
+        "stadium": "Stade Pierre-Mauroy"
+    },
+    {
+        "name": "Paris Saint-Germain FC",
+        "logo": "https://crests.football-data.org/524.svg",
+        "stadium": "Parc des Princes"
+    },
+    {
+        "name": "Sevilla FC",
+        "logo": "https://crests.football-data.org/559.svg",
+        "stadium": "Estadio Ramón Sánchez Pizjuán"
+    },
+    {
+        "name": "Fenerbahçe SK",
+        "logo": "https://crests.football-data.org/613.svg",
+        "stadium": "Şükrü Saraçoğlu"
+    },
+    {
+        "name": "Beşiktaş JK",
+        "logo": "https://crests.football-data.org/600.svg",
+        "stadium": "Vodafone Arena"
+    },
+    {
+        "name": "Galatasaray SK",
+        "logo": "https://crests.football-data.org/610.svg",
+        "stadium": "Türk Telekom Arena"
+    },
+    {
+        "name": "PAE Olympiakos SFP",
+        "logo": "https://crests.football-data.org/654.svg",
+        "stadium": "Stadio Georgios Karaiskáki"
+    },
+    {
+        "name": "PSV",
+        "logo": "https://crests.football-data.org/674.svg",
+        "stadium": "Philips Stadion"
+    },
+    {
+        "name": "AFC Ajax",
+        "logo": "https://crests.football-data.org/678.svg",
+        "stadium": "Johan Cruyff ArenA"
+    },
+    {
+        "name": "RB Leipzig",
+        "logo": "https://crests.football-data.org/721.svg",
+        "stadium": "Red Bull Arena"
+    },
+    {
+        "name": "FK Zenit Sankt-Petersburg",
+        "logo": "https://crests.football-data.org/731.svg",
+        "stadium": "Gazprom Arena"
+    },
+    {
+        "name": "Celtic FC",
+        "logo": "https://crests.football-data.org/732.svg",
+        "stadium": "Celtic Park"
+    },
+    {
+        "name": "Malmö FF",
+        "logo": "https://crests.football-data.org/749.svg",
+        "stadium": "Eleda Stadion"
+    },
+    {
+        "name": "GNK Dinamo Zagreb",
+        "logo": "https://crests.football-data.org/755.svg",
+        "stadium": "Stadion Maksimir"
+    },
+    {
+        "name": "FK Dynamo Kyiv",
+        "logo": "https://crests.football-data.org/842.svg",
+        "stadium": "NSK Olimpijs'kyj"
+    },
+    {
+        "name": "Club Brugge KV",
+        "logo": "https://crests.football-data.org/851.svg",
+        "stadium": "Jan Breydelstadion"
+    },
+    {
+        "name": "FC Red Bull Salzburg",
+        "logo": "https://crests.football-data.org/1877.svg",
+        "stadium": "Red Bull Arena"
+    },
+    {
+        "name": "FK Shakhtar Donetsk",
+        "logo": "https://crests.football-data.org/1887.svg",
+        "stadium": "Oblasny SportKomplex Metalist"
+    },
+    {
+        "name": "Sport Lisboa e Benfica",
+        "logo": "https://crests.football-data.org/1903.svg",
+        "stadium": "Estádio do Sport Lisboa e Benfica"
+    },
+    {
+        "name": "SK Rapid Wien",
+        "logo": "https://crests.football-data.org/2014.svg",
+        "stadium": "Allianz Stadion"
+    }
+]
