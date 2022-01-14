@@ -12,7 +12,7 @@ Football league simulation with Laravel and Vue.js
 - Play Week by Week Matches
 - Play All Weeks
 - Edit Played Match Result
-- Champion Chance Percentage (Last 2 Weeks)
+- Champion Odds Percentage (Last 2 Weeks)
 ## Deploy with
 - [Amazon EC2, Apache2, PHP7.4](https://vuejs.org/)
 - [Amazon RDS, MariaDB](https://vuejs.org/)
