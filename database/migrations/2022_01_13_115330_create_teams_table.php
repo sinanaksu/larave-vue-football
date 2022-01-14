@@ -17,6 +17,7 @@ class CreateTeamsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('logo')->default('');
+            $table->string('stadium')->default('');
             $table->integer('played')->default(0);
             $table->integer('win')->default(0);
             $table->integer('drawn')->default(0);
