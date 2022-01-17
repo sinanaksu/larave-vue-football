@@ -1,4 +1,4 @@
-# Larave/Vue.js Football Simulation
+# Laravel/Vue.js Football Simulation
 Football league simulation with Laravel and Vue.js
 <br />
 <h3  align="center"><a href="https://ec2-35-158-108-13.eu-central-1.compute.amazonaws.com/">DEMO</a></h3>
@@ -14,11 +14,11 @@ Football league simulation with Laravel and Vue.js
 - Edit Played Match Result
 - Champion Odds Percentage (Last 2 Weeks)
 ## Deploy with
-- [Amazon EC2, Apache2, PHP7.4](https://vuejs.org/)
-- [Amazon RDS, MariaDB](https://vuejs.org/)
+- [Amazon EC2, Apache2, PHP7.4]
+- [Amazon RDS, MariaDB]
 
 ## Built with
-- [Laravel 8.x](https://vuejs.org/)
+- [Laravel 8.x](https://laravel.com/)
 - [Vue.js](https://vuejs.org/)
 - [Bootstrap 5.1](https://getbootstrap.com/)
 - [Bootstrap Icons](https://icons.getbootstrap.com/)
